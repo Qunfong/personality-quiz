@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Personality Quiz 性格小测验</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,sans-serif;background:#fafafa;color:#222;display:flex;justify-content:center;padding:16px}
+.c{max-width:480px;width:100%}h1{font-size:24px;margin:12px 0;text-align:center}h2{font-size:19px;line-height:1.3;margin:8px 0}
+.card{background:#fff;border:1px solid #e5e5e5;border-radius:14px;padding:18px;margin:12px 0}
+button{font:inherit;cursor:pointer;border:0;border-radius:10px;padding:12px 14px}
+.o{display:block;width:100%;text-align:left;background:#fff;margin:8px 0;border:1.5px solid #ddd}.o:hover,.o:active{border-color:#2a5bd7;background:#f1f5ff}
+.p{background:#2a5bd7;color:#fff;width:100%;margin-top:10px}
+.bar{height:6px;background:#eee;border-radius:3px}.bar i{display:block;height:6px;background:#2a5bd7;border-radius:3px}
+.z{display:block;font-size:1.05em}.y{display:block;font-size:.8em;color:#777}
+.row{margin:12px 0}.tr{height:8px;background:#eee;border-radius:4px;margin-top:4px}.tr i{display:block;height:8px;background:#2a5bd7;border-radius:4px}
+</style></head><body><div class="c" id="app"></div>
+<script>
+const f=s=>{const[e,z,p]=s.split("|");return`${e}<span class=z>${z}</span><span class=y>${p}</span>`};
+const Q=[
+["When you're stressed, what helps most?|压力大的时候,什么最有帮助?|Yālì dà de shíhou, shénme zuì yǒu bāngzhù?",["Quiet time alone with something warm|一个人安静地待着,喝点热的|Yí gè rén ānjìng de dāizhe, hē diǎn rè de","Moving: a run, a climb, fresh air|动一动:跑步、攀岩、呼吸新鲜空气|Dòng yi dòng: pǎobù, pānyán, hūxī xīnxiān kōngqì","Calling someone who gets me|打电话给懂我的人|Dǎ diànhuà gěi dǒng wǒ de rén","Distracting myself with something random|做点随机的事分散注意力|Zuò diǎn suíjī de shì fēnsàn zhùyìlì"]],
+["What do you want people to say about you?|你希望别人怎么评价你?|Nǐ xīwàng biérén zěnme píngjià nǐ?",["Reliable and kind|可靠又善良|Kěkào yòu shànliáng","Brave and curious|勇敢又好奇|Yǒnggǎn yòu hàoqí","Warm and fun to be around|温暖,和你在一起很开心|Wēnnuǎn, hé nǐ zài yìqǐ hěn kāixīn","Unpredictable, never boring|难以预测,从不无聊|Nán yǐ yùcè, cóng bù wúliáo"]],
+["What does a good life look like to you?|你心中的美好生活是什么样?|Nǐ xīnzhōng de měihǎo shēnghuó shì shénme yàng?",["A calm home, people I love|安静的家,和爱的人|Ānjìng de jiā, hé ài de rén","Many places, many stories|去很多地方,有很多故事|Qù hěn duō dìfang, yǒu hěn duō gùshi","A full table, always someone around|餐桌总是坐满人|Cānzhuō zǒngshì zuò mǎn rén","No fixed plan, a surprise every year|没有固定计划,每年都有惊喜|Méiyǒu gùdìng jìhuà, měi nián dōu yǒu jīngxǐ"]],
+["A friend is sad. You...|朋友难过了,你……|Péngyou nánguò le, nǐ……",["Sit with them quietly|安静地陪着他|Ānjìng de péizhe tā","Take them out for a walk|带他出去走走|Dài tā chūqù zǒuzou","Gather everyone to cheer them up|叫大家一起逗他开心|Jiào dàjiā yìqǐ dòu tā kāixīn","Make them laugh with something silly|做点傻事逗他笑|Zuò diǎn shǎ shì dòu tā xiào"]],
+["What would you tell your 18-year-old self?|你会对十八岁的自己说什么?|Nǐ huì duì shíbā suì de zìjǐ shuō shénme?",["Rest more, worry less|多休息,少担心|Duō xiūxi, shǎo dānxīn","Go. Do the scary thing.|去吧,做那件让你害怕的事|Qù ba, zuò nà jiàn ràng nǐ hàipà de shì","Keep your friends close|珍惜身边的朋友|Zhēnxī shēnbiān de péngyou","Don't plan so much|别想那么多计划|Bié xiǎng nàme duō jìhuà"]],
+["Where do you find your energy?|你的能量从哪里来?|Nǐ de néngliàng cóng nǎlǐ lái?",["My own space|我自己的空间|Wǒ zìjǐ de kōngjiān","New places|新的地方|Xīn de dìfang","Other people|别人|Biérén","Whatever I feel like that day|当天的心情|Dāngtiān de xīnqíng"]],
+["Midnight snack craving?|半夜想吃东西?|Bànyè xiǎng chī dōngxi?",["Instant noodles, made carefully at home|在家认真煮泡面|Zài jiā rènzhēn zhǔ pàomiàn","Street food from a place I've never tried|没试过的路边摊|Méi shì guo de lùbiāntān","Order a pizza for everyone|给大家点个披萨|Gěi dàjiā diǎn gè pīsà","Open the fridge, invent something|打开冰箱,发明新菜|Dǎkāi bīngxiāng, fāmíng xīn cài"]],
+["Pick your last meal|选一顿最后的晚餐|Xuǎn yí dùn zuìhòu de wǎncān",["Grandma's comfort food|奶奶做的家常菜|Nǎinai zuò de jiācháng cài","A tasting menu from far away|远方的品鉴套餐|Yuǎnfāng de pǐnjiàn tàocān","Hotpot with all my friends|和所有朋友吃火锅|Hé suǒyǒu péngyou chī huǒguō","Dessert first, then whatever|先吃甜点,其他随便|Xiān chī tiándiǎn, qítā suíbiàn"]],
+["Would you rather eat forever...|你宁愿永远只吃……|Nǐ nìngyuàn yǒngyuǎn zhǐ chī……",["Dumplings made at home|在家包的饺子|Zài jiā bāo de jiǎozi","Spicy Sichuan hotpot|麻辣四川火锅|Má là Sìchuān huǒguō","Dim sum shared with friends|和朋友分享的点心|Hé péngyou fēnxiǎng de diǎnxin","A different street snack every day|每天不同的街头小吃|Měi tiān bùtóng de jiētóu xiǎochī"]],
+["Would you rather have for breakfast...|你宁愿早餐吃……|Nǐ nìngyuàn zǎocān chī……",["Warm congee with pickles|热粥配咸菜|Rè zhōu pèi xiáncài","Spicy dan dan noodles|麻辣担担面|Má là dàndānmiàn","Dim sum brunch with everyone|大家一起的早茶|Dàjiā yìqǐ de zǎochá","Whatever the stall has: jianbing, baozi, soy milk|看摊位有啥:煎饼、包子、豆浆|Kàn tānwèi yǒu shá: jiānbing, bāozi, dòujiāng"]],
+["Job offer: which one?|有个工作机会,你选……|Yǒu gè gōngzuò jīhuì, nǐ xuǎn……",["Stable job, close to home|稳定的工作,离家近|Wěndìng de gōngzuò, lí jiā jìn","Exciting job in another country|在国外的刺激工作|Zài guówài de cìjī gōngzuò","Team job with great colleagues|同事很棒的团队工作|Tóngshì hěn bàng de tuánduì gōngzuò","Start my own weird project|做自己的古怪项目|Zuò zìjǐ de gǔguài xiàngmù"]],
+["You get a free year. You...|你有一整年的空闲,你会……|Nǐ yǒu yì zhěng nián de kòngxián, nǐ huì……",["Learn a craft at home|在家学一门手艺|Zài jiā xué yì mén shǒuyì","Travel with a backpack|背包旅行|Bēibāo lǚxíng","Host and visit everyone I know|招待并拜访所有认识的人|Zhāodài bìng bàifǎng suǒyǒu rènshi de rén","Try ten different things|尝试十件不同的事|Chángshì shí jiàn bùtóng de shì"]],
+["Would you rather live in...|你更想住在……|Nǐ gèng xiǎng zhù zài……",["A cabin with a fireplace|有壁炉的小木屋|Yǒu bìlú de xiǎo mùwū","A tent that moves every week|每周搬一次的帐篷|Měi zhōu bān yí cì de zhàngpeng","A big house, always full of guests|总是宾客满堂的大房子|Zǒngshì bīnkè mǎntáng de dà fángzi","A houseboat with no address|没有地址的船屋|Méiyǒu dìzhǐ de chuánwū"]],
+["Would you rather...|你宁愿……|Nǐ nìngyuàn……",["Never leave your city, but have the perfect home|永远不离开城市,但有完美的家|Yǒngyuǎn bù líkāi chéngshì, dàn yǒu wánměi de jiā","Travel forever, with no home|永远旅行,没有家|Yǒngyuǎn lǚxíng, méiyǒu jiā","Never have to be alone|永远不用独自一人|Yǒngyuǎn bú yòng dúzì yì rén","Get a random surprise every day|每天都有随机惊喜|Měi tiān dōu yǒu suíjī jīngxǐ"]],
+["Would you rather fight...|你宁愿对付……|Nǐ nìngyuàn duìfu……",["Nothing, I'll hide|什么都不打,我躲起来|Shénme dōu bù dǎ, wǒ duǒ qǐlái","One horse-sized duck|一只马那么大的鸭子|Yì zhī mǎ nàme dà de yāzi","100 duck-sized horses, with friends|一百匹鸭子那么大的马,和朋友一起|Yì bǎi pǐ yāzi nàme dà de mǎ, hé péngyou yìqǐ","Both, why not|两个都打,为什么不呢|Liǎng gè dōu dǎ, wèishénme bù ne"]]
+];
+const T={
+A:["Sleepy Capybara 🦫|水豚|Shuǐtún","Calm, kind and unbothered. Everyone relaxes around you, and you know exactly where the good blanket is.|平静、善良、不慌不忙。大家在你身边都能放松,你也最知道好毯子在哪里。|Píngjìng, shànliáng, bù huāng bù máng. Dàjiā zài nǐ shēnbiān dōu néng fàngsōng, nǐ yě zuì zhīdào hǎo tǎnzi zài nǎlǐ.","Homebody|爱宅|Ài zhái"],
+B:["Mountain Goat 🐐|山羊|Shānyáng","Curious and fearless. If there's a cliff, you want to see the view from the top.|好奇又无畏。看到悬崖,你就想去山顶看风景。|Hàoqí yòu wúwèi. Kàndào xuányá, nǐ jiù xiǎng qù shāndǐng kàn fēngjǐng.","Adventurous|爱冒险|Ài màoxiǎn"],
+C:["Golden Retriever 🐕|金毛|Jīnmáo","Warm and loyal, happiest when everyone is together.|温暖又忠诚,大家在一起时你最开心。|Wēnnuǎn yòu zhōngchéng, dàjiā zài yìqǐ shí nǐ zuì kāixīn.","Social|爱社交|Ài shèjiāo"],
+D:["Chaotic Goose 🪿|大白鹅|Dà bái é","Unpredictable and funny. Nobody knows what you'll do next, including you.|难以预测又好笑。谁也不知道你下一步做什么,包括你自己。|Nán yǐ yùcè yòu hǎoxiào. Shéi yě bù zhīdào nǐ xià yí bù zuò shénme, bāokuò nǐ zìjǐ.","Spontaneous|随性|Suíxìng"]};
+const L="ABCD";let ans=[],i=0;const $=document.getElementById("app");
+function home(){$.innerHTML=`<h1>${f("Personality Quiz|性格小测验|Xìnggé xiǎo cèyàn")}</h1><div class=card><p>${f(Q.length+" questions about food, life and silly choices. Pick what feels most like you.|关于美食、人生和傻傻选择的 "+Q.length+" 道题。选最像你的。|Guānyú měishí, rénshēng hé shǎshǎ xuǎnzé de "+Q.length+" dào tí. Xuǎn zuì xiàng nǐ de.")}</p><button class=p onclick="start()">${f("Start|开始|Kāishǐ")}</button></div>`}
+function start(){ans=[];i=0;ask()}
+function ask(){const[q,o]=Q[i];$.innerHTML=`<div class=bar><i style="width:${i/Q.length*100}%"></i></div><div class=card><small>${i+1} / ${Q.length}</small><h2>${f(q)}</h2>${o.map((t,k)=>`<button class=o onclick="pick(${k})">${f(t)}</button>`).join("")}</div>`}
+function pick(k){ans.push(L[k]);i++;i<Q.length?ask():done()}
+function done(){const c={A:0,B:0,C:0,D:0};ans.forEach(x=>c[x]++);const top=Object.keys(c).sort((a,b)=>c[b]-c[a])[0],t=T[top];
+$.innerHTML=`<h1>${f("You are...|你是……|Nǐ shì……")}</h1><div class=card><h2>${f(t[0])}</h2><p>${f(t[1])}</p></div><div class=card>${L.split("").map(k=>`<div class=row>${f(T[k][2])}<div class=tr><i style="width:${Math.round(c[k]/Q.length*100)}%"></i></div></div>`).join("")}</div><button class=p onclick="home()">${f("Again|再来一次|Zài lái yí cì")}</button>`}
+home();
+</script></body></html>
