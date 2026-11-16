@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>How well do you know your partner? 你有多了解TA?</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:#f4faf5;color:#263a36;display:flex;justify-content:center;padding:14px;min-height:100vh}
+.c{max-width:480px;width:100%}h1{font-size:24px;margin:6px 0 12px;text-align:center}h2{font-size:23px;line-height:1.3;margin:6px 0 4px;text-align:center}
+.card{background:#fff;border-radius:26px;padding:18px;margin:12px 0;box-shadow:0 6px 20px #8fc7b833}
+button{font:inherit;color:inherit;cursor:pointer;border:0;border-radius:999px;padding:12px 18px;transition:transform .12s}
+button:active{transform:scale(.95)}
+.p{background:#35b39b;color:#fff;width:100%;margin-top:10px;font-weight:600}.s{background:#e8f3ef;width:100%;margin-top:10px}
+.lg{background:#fff;box-shadow:0 2px 8px #0001;padding:7px 13px;font-size:14px}
+input,textarea{font:inherit;width:100%;padding:12px;border-radius:16px;border:2px solid #d6ebe3;margin:6px 0;background:#fbfffd}
+code{word-break:break-all;display:block;background:#eef6f2;padding:12px;border-radius:14px;margin:8px 0}
+.bar{height:10px;background:#dcefe8;border-radius:6px;margin:6px 0 2px}.bar i{display:block;height:10px;background:linear-gradient(90deg,#7fd6c2,#35b39b);border-radius:6px;transition:width .3s}
+.hero{font-size:40px;text-align:center;letter-spacing:6px}
+.qe{font-size:46px;text-align:center;line-height:1.1;animation:bob 2.4s ease-in-out infinite}@keyframes bob{50%{transform:translateY(-6px)}}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.tile{display:flex;flex-direction:column;align-items:center;gap:6px;padding:16px 8px;border-radius:22px;border:3px solid transparent;font-size:17px;font-weight:600;text-align:center;line-height:1.25;min-height:96px;justify-content:center}
+.tile:hover{transform:translateY(-3px)}.tile:active{transform:scale(.92)}
+.em{font-size:30px;line-height:1}
+.t0{background:#dff0ff}.t1{background:#ddf5e8}.t2{background:#fff3cc}.t3{background:#ebe3ff}
+.sel{border-color:#35b39b}
+.ban{padding:8px 10px;border-radius:999px;text-align:center;font-weight:600;font-size:14px;margin-bottom:8px}.ban.self{background:#e8f3ef}.ban.guess{background:#dff0ff;color:#2a7bbf}
+.m{background:#e8f6ec}.d{background:#fdeeee}.r{padding:12px;border-radius:16px;margin:8px 0;font-size:14px}
+.big{font-size:52px;text-align:center;margin:0;color:#35b39b;font-weight:700}
+.pop{display:block;font-size:54px;text-align:center;animation:pop .35s ease-out}@keyframes pop{0%{transform:scale(.4)}70%{transform:scale(1.2)}100%{transform:scale(1)}}
+ul{margin:6px 0 10px;padding-left:20px}
+</style></head><body><div class="c" id="app"></div>
+<script>
+const Q=[
+{e:"✈️",q:"Ideal holiday?|理想的假期?",o:[["🏖️","Beach|海边"],["🏙️","City trip|城市游"],["⛰️","Mountains|山里"],["🚐","Road trip|自驾游"]]},
+{e:"📱",q:"Role in the group chat?|群聊里的角色?",o:[["👻","Lurker, never replies|潜水员,从不回复"],["🗺️","Trip planner|旅行策划师"],["😂","Meme sender|表情包大王"],["🎙️","Random voice notes|乱发语音的人"]]},
+{e:"🐾",q:"Dream pet?|梦想中的宠物?",o:[["🐶","Dog|狗"],["🐱","Cat|猫"],["🐴","Horse|马"],["🦜","Parrot|鹦鹉"]]},
+{e:"🍽️",q:"Favorite cuisine?|最喜欢的菜系?",o:[["🍕","Italian|意大利菜"],["🥟","Chinese|中餐"],["🍣","Japanese|日本菜"],["🌮","Mexican|墨西哥菜"]]},
+{e:"😮‍💨",q:"When stressed...|压力大的时候……",o:[["😴","Sleep|睡觉"],["🏃","Exercise|运动"],["🎲","Do something random|做点随机的事"],["📞","Talk to someone|找人聊天"]]},
+{e:"✨",q:"Pick a superpower|选一个超能力",o:[["🦸","Fly|飞行"],["🫥","Invisibility|隐身"],["🔮","Read minds|读心术"],["⏳","Time travel|时间旅行"]]},
+{e:"🧟",q:"Zombie apocalypse role?|僵尸末日的角色?",o:[["👑","Leader|领袖"],["👨‍🍳","Chef|厨师"],["🔦","Scouts for supplies|出去找物资"],["🧟","Becomes a zombie|变成僵尸"]]},
+{e:"🙈",q:"Worst habit?|最糟糕的习惯?",o:[["⏰","Snoozing the alarm|赖床"],["🛌","Phone in bed|床上玩手机"],["☕","Cups everywhere|到处放杯子"],["🌀","Overthinking|想太多"]]},
+{e:"🍱",q:"At a buffet...|在自助餐……",o:[["🥢","Sticks to favorites|只吃最爱"],["🍤","Tries one of everything|每样都尝"],["🍲","Shares plates with everyone|和大家分享"],["🍰","Dessert first|先吃甜点"]]},
+{e:"🛗",q:"Stuck in an elevator for an hour...|被困在电梯里一小时……",o:[["🎤","Sing loudly|大声唱歌"],["😴","Take a nap|睡一觉"],["🔍","Look for a way out|想办法逃出去"],["🤝","Make friends with everyone|和大家交朋友"]]},
+{e:"🚿",q:"Singing in the shower?|洗澡时唱歌?",o:[["🎭","Full opera|飙歌剧"],["🎵","Pop hits|流行歌"],["🤫","Silent|不唱"],["🐦","Random noises|乱哼"]]},
+{e:"🌃",q:"Perfect Friday night?|完美的周五晚上?",o:[["🛋️","Cozy at home|在家放松"],["🗺️","Try somewhere new|去没去过的地方"],["🎉","A party|派对"],["🎲","No plan, see what happens|没计划,随缘"]]},
+{e:"🧳",q:"Spontaneous trip tomorrow?|明天说走就走旅行?",o:[["📋","Can't, needs a plan|不行,需要计划"],["🎒","Yes, packing now!|好!现在就收拾"],["👯","Only if friends come|朋友去才去"],["🚀","Already left|已经出发了"]]},
+{e:"🎬",q:"Favorite movie genre?|最喜欢的电影类型?",o:[["😂","Comedy|喜剧"],["🔪","Thriller|惊悚片"],["💕","Romance|爱情片"],["👽","Sci-fi|科幻片"]]},
+{e:"🏡",q:"Dream home?|梦想的家?",o:[["🏙️","City apartment|城市公寓"],["🌷","House with a garden|带花园的房子"],["🏕️","Cabin in nature|自然中的小屋"],["⛵","Houseboat or van|船屋或房车"]]}
+];
+const W={0:"ACBD",1:"ABCD",2:"CABD",4:"ABDC",5:"BACD",6:"CABD",8:"ABCD",9:"DABC",11:"ABCD",12:"ABCD",13:"CBAD",14:"CABD"};
+const TY={
+A:{n:"Cozy Dreamer 🛋️|宅家梦想家",d:"Home is your happy place. You make the best snacks and the best plans for doing nothing.|家是你的快乐星球。你最会准备零食,也最会享受什么都不做。",p:["Calm and loyal|平静又忠诚","Makes people feel safe|让人很有安全感"],c:["Hard to leave the couch|很难离开沙发","Change makes you nervous|害怕改变"]},
+B:{n:"Adventurer 🧗|冒险家",d:"You chase the next view. If there's a cliff, you want to see the top.|你总在追逐下一片风景。看到悬崖,你就想爬上去。",p:["Brave and curious|勇敢又好奇","Always up for something new|总愿意尝试新事物"],c:["Gets bored fast|很容易无聊","Rest feels like wasted time|休息像是浪费时间"]},
+C:{n:"Social Butterfly 🦋|社交蝴蝶",d:"People give you energy. You're the glue of every group chat.|朋友给你能量。你是每个群聊的粘合剂。",p:["Warm and fun to be around|温暖有趣","Makes friends everywhere|到哪都能交朋友"],c:["Alone time feels hard|很难享受独处","Says yes to too many plans|答应太多邀约"]},
+D:{n:"Wildcard 🎲|万能变数",d:"Nobody knows what you'll do next, including you.|没人知道你下一步会做什么,包括你自己。",p:["Flexible and funny|灵活又好笑","Improvises well in a crisis|危机时很会随机应变"],c:["Plans? What plans?|计划?什么计划?","Hard to pin down|很难被捉摸"]}};
+const S={
+en:{title:"How well do you know your partner?",intro:"20 questions. Step 1: answer what you think your partner would pick, then send them your code.",step2:"Step 2: paste the code your partner sent you, answer the questions about yourself, and see how well they know you.",yourname:"Your name",b1:"1. Answer for my partner",b2:"2. Check how my partner filled it in",paste:"Partner's code",bad:"That code doesn't look right.",about:"🙋 Answer about yourself",guess:"🎯 What do you think your partner would pick?",done:"Done! 🎉",send:"Send this code to your partner:",copy:"Copy code",then:"Next: check how my partner filled it in",score:"How well your partner knows you",yg:"Your answer",real:"Their guess",again:"Start over",home:"Home",yourp:"Your personality",why:"Because you picked",pros:"Pros",cons:"Struggles",back:"Back",fwd:"Forward",yes:["They got it! 🎯","They know you! 💕","Mind reader! 🔮","Spot on! 💥"],no:["Oops! 😅","Not quite! 🙈","Plot twist! 🌀","Time for a date-night chat 😏"],next:"Next →",v:["Soulmate level 🧠❤️","They know you well 💕","Not bad, keep learning 🙂","Ask more questions 🤔","Strangers? 😂"]},
+zh:{title:"你有多了解TA?",intro:"20 道题。第一步:回答你觉得TA会选什么,然后把代码发给TA。",step2:"第二步:粘贴TA发给你的代码,回答关于你自己的题,看看TA有多了解你。",yourname:"你的名字",b1:"1. 替TA回答",b2:"2. 看看TA怎么填的",paste:"对方的代码",bad:"代码好像不对。",about:"🙋 回答关于你自己的",guess:"🎯 你觉得TA会选哪个?",done:"完成!🎉",send:"把这个代码发给对方:",copy:"复制代码",then:"下一步:看看TA怎么填的",score:"TA有多了解你",yg:"你的答案",real:"TA猜的",again:"重新开始",home:"首页",yourp:"你的性格",why:"因为你选了",pros:"优点",cons:"挑战",back:"返回",fwd:"前进",yes:["TA猜对了!🎯","TA懂你!💕","读心高手!🔮","正中!💥"],no:["哎呀!😅","不太对!🙈","剧情反转!🌀","该约会聊聊了 😏"],next:"下一题 →",v:["灵魂伴侣级别 🧠❤️","TA很了解你 💕","还不错,继续了解 🙂","多问问TA吧 🤔","是陌生人吗?😂"]}};
+const L="ABCD";let lang="en",scr="home",mode="self",name="",pname="",pans="",pcode="",ans=[],i=0;const $=document.getElementById("app");
+const t=k=>S[lang][k],pk=s=>s.split("|")[lang=="en"?0:1],cl=s=>s.replace(/[<>"&~]/g,"").trim(),op=(q,x)=>q.o[L.indexOf(x)],sh=o=>o[0]+" "+pk(o[1]);
+function fwdOk(){return (scr=="ask"&&ans[i]!==undefined)||scr=="fb"}
+const hdr=()=>`<div style="display:flex;justify-content:space-between">${scr=="home"?"<span></span>":`<span><button class=lg onclick="back()">← ${t("back")}</button> <button class=lg onclick="scr='home';render()">🏠</button>${fwdOk()?`<button class=lg onclick="fwd()">${t("fwd")} →</button>`:""}</span>`}<button class=lg onclick="tg()">🌐 ${lang=="en"?"中文":"English"}</button></div>`;
+function tg(){const n=document.getElementById("n"),p=document.getElementById("pc");if(n)name=cl(n.value);if(p)pcode=p.value;lang=lang=="en"?"zh":"en";render()}
+function render(){({home,ask,sdone,res,fb})[scr]()}
+function home(){$.innerHTML=hdr()+`<div class=hero>🐣🌈🐥</div><h1>${t("title")}</h1><div class=card><p>${t("intro").replace("20",Q.length)}</p><input id=n value="${name}" placeholder="${t("yourname")}"><button class=p onclick="go('guess')">${t("b1")}</button></div><div class=card><p>${t("step2")}</p><textarea id=pc rows=2 placeholder="${t("paste")}">${pcode.replace(/[<>&]/g,"")}</textarea><button class=p onclick="go('self')">${t("b2")}</button><p id=err style="color:#c33"></p></div>`}
+function go(m){name=cl(document.getElementById("n").value)||"Me";pcode=document.getElementById("pc").value;
+if(m=="self"){const[pn,pa]=pcode.trim().split("~");if(!pa||pa.length!=Q.length||!/^[ABCD]+$/.test(pa)){document.getElementById("err").textContent=t("bad");return}pname=pn.replace(/_/g," ");pans=pa}
+mode=m;ans=[];i=0;scr="ask";render()}
+function ask(){const q=Q[i];$.innerHTML=hdr()+`<div class=bar><i style="width:${i/Q.length*100}%"></i></div><div class=card><div class="ban ${mode}">${mode=="self"?t("about"):t("guess")}</div><small>${i+1} / ${Q.length}</small><div class=qe>${q.e}</div><h2>${pk(q.q)}</h2><div class=grid>${q.o.map((o,k)=>`<button class="tile t${k}${ans[i]==L[k]?" sel":""}" onclick="pick(${k})"><span class=em>${o[0]}</span><span>${pk(o[1])}</span></button>`).join("")}</div></div>`}
+function fwd(){if(scr=="fb"){nx();return}if(i+1<Q.length){i++;render()}else{i=Q.length;scr=mode=="self"?"res":"sdone";render()}}
+function back(){if(scr=="ask"){if(i==0)scr="home";else i--}else if(scr=="fb")scr="ask";else{i=Q.length-1;scr="ask"}render()}
+function pick(k){ans[i]=L[k];if(mode=="self"){scr="fb";render();return}i++;if(i<Q.length)render();else{scr="sdone";render()}}
+function fb(){const k=i,ok=ans[k]==pans[k],q=Q[k],a=t(ok?"yes":"no"),line=a[Math.floor(Math.random()*a.length)];$.innerHTML=hdr()+`<div class=bar><i style="width:${(k+1)/Q.length*100}%"></i></div><div class=card><span class=pop>${ok?"🎉":"🙈"}</span><h2>${line}</h2>${ok?"":`<p style="text-align:center">${t("real")}: <b>${sh(op(q,pans[k]))}</b></p>`}<button class=p onclick="nx()">${t("next")}</button></div>`}
+function nx(){i++;scr=i<Q.length?"ask":"res";render()}
+function sdone(){$.innerHTML=hdr()+`<div class=hero>🎉</div><h1>${t("done")}</h1><div class=card><p>${t("send")}</p><code id=cd>${name.replace(/\s/g,"_")}~${ans.join("")}</code><button class=p onclick="cp()">${t("copy")}</button><button class=s onclick="scr='home';render()">${t("then")}</button></div>`}
+function cp(){try{navigator.clipboard.writeText(document.getElementById("cd").textContent)}catch(e){}}
+function pcard(){const c={A:0,B:0,C:0,D:0};const last={};for(const k in W){const x=ans[k];if(x){const y=W[k][L.indexOf(x)];c[y]++;last[y]=+k}}const key=Object.keys(c).sort((a,b)=>c[b]-c[a]||(last[b]||0)-(last[a]||0))[0],T=TY[key],why=Object.keys(W).filter(k=>ans[k]&&W[k][L.indexOf(ans[k])]==key).slice(0,4).map(k=>sh(op(Q[k],ans[k]))).join(", "),li=a=>a.map(x=>`<li>${pk(x)}</li>`).join("");return `<div class=card><small>${t("yourp")}</small><h2>${pk(T.n)}</h2><p>${pk(T.d)}</p><p><small>${t("why")}: ${why}</small></p><b>👍 ${t("pros")}</b><ul>${li(T.p)}</ul><b>⚠️ ${t("cons")}</b><ul>${li(T.c)}</ul></div>`}
+function res(){let m=0,h="";Q.forEach((q,k)=>{const ok=ans[k]==pans[k];if(ok)m++;h+=`<div class="r ${ok?"m":"d"}"><b>${q.e} ${pk(q.q)}</b><br>${t("yg")}: ${sh(op(q,ans[k]))}${ok?" ✓":`<br>${t("real")}: ${sh(op(q,pans[k]))}`}</div>`});
+const v=t("v")[m>=Q.length*.9?0:m>=Q.length*.7?1:m>=Q.length*.5?2:m>=Q.length*.3?3:4];$.innerHTML=hdr()+`<h1>${t("score")}</h1><div class=card><p class=big>${m} / ${Q.length}</p><h2>${v}</h2></div>${pcard()}${h}<button class=s onclick="scr='home';render()">${t("again")}</button>`}
+render();
+</script></body></html>
